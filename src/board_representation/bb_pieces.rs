@@ -1,10 +1,12 @@
 use std::ops::{Index, IndexMut};
 
+#[derive(Clone, Copy, PartialEq, Eq)]
 pub enum Color {
     White = 0,
     Black = 1,
 }
 
+#[derive(Clone, Copy, PartialEq, Eq)]
 pub enum Piece {
     Pawn = 0,
     Knight,
