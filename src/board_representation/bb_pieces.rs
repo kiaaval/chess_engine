@@ -1,3 +1,5 @@
+use std::fmt;
+
 use std::ops::BitOr;
 use std::ops::{Index, IndexMut};
 
@@ -5,6 +7,15 @@ use std::ops::{Index, IndexMut};
 pub enum Color {
     White = 0,
     Black = 1,
+}
+impl fmt::Display for Color {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let s = match self {
+            Color::White => "White",
+            Color::Black => "Black",
+        };
+        write!(f, "{}", s)
+    }
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -42,7 +53,20 @@ impl BitOr for BitBoard {
         BitBoard(self.0 | rhs.0)
     }
 }
-
+impl fmt::Display for BitBoard {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        const LAST_BIT: u64 = 63;
+        for rank in 0..8 {
+            for file in (0..8).rev() {
+                let mask = 1u64 << (LAST_BIT - (rank * 8) - file);
+                let char = if self.0 & mask != 0 { '1' } else { '0' };
+                write!(f, "{char} ");
+            }
+            writeln!(f);
+        }
+        Ok(())
+    }
+}
 #[derive(Clone, Copy)]
 pub struct EverySide<T> {
     sides: [T; 2],

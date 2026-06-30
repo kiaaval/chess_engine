@@ -1,14 +1,13 @@
 use crate::board_representation::{
     bb_pieces::{BitBoard, Color, EveryPiece, EverySide, Occupancy, Piece},
     game_state::GameState,
-    side_to_move::{MoveTurn, MoveTurns},
 };
 
 pub struct Board {
     pub bb_pieces: EverySide<EveryPiece<BitBoard>>,
     pub bb_occupancy: Occupancy,
-    pub side_to_move: MoveTurn,
-    pub game_stage: GameState,
+    pub side_to_move: Color,
+    pub state: GameState,
 }
 
 impl Board {
@@ -16,8 +15,8 @@ impl Board {
         Self {
             bb_pieces: EverySide::new(EveryPiece::new(BitBoard::empty())),
             bb_occupancy: Occupancy::new(),
-            side_to_move: MoveTurn::default(),
-            game_stage: GameState::empty(),
+            side_to_move: Color::White,
+            state: GameState::empty(),
         }
     }
 
@@ -62,8 +61,8 @@ impl Board {
         Self {
             bb_pieces: bb,
             bb_occupancy,
-            side_to_move: MoveTurn::default(),
-            game_stage: GameState::new(),
+            side_to_move: Color::White,
+            state: GameState::new(),
         }
     }
 }
