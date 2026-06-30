@@ -1,3 +1,4 @@
+use std::ops::BitOr;
 use std::ops::{Index, IndexMut};
 
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -35,6 +36,12 @@ impl BitBoard {
         self.0 ^= 1u64 << sq
     }
 }
+impl BitOr for BitBoard {
+    type Output = Self;
+    fn bitor(self, rhs: Self) -> Self {
+        BitBoard(self.0 | rhs.0)
+    }
+}
 
 #[derive(Clone, Copy)]
 pub struct EverySide<T> {
@@ -48,11 +55,31 @@ impl<T: Copy> EverySide<T> {
 
 #[derive(Clone, Copy)]
 pub struct EveryPiece<T> {
-    pieces: [T; 6],
+    pub pieces: [T; 6],
 }
 impl<T: Copy> EveryPiece<T> {
     pub fn new(value: T) -> Self {
         EveryPiece { pieces: [value; 6] }
+    }
+}
+
+#[derive(Clone, Copy)]
+pub struct Occupancy {
+    pub all: BitBoard,
+    pub white: BitBoard,
+    pub black: BitBoard,
+}
+impl Occupancy {
+    pub fn new() -> Self {
+        Occupancy {
+            all: BitBoard::empty(),
+            white: BitBoard::empty(),
+            black: BitBoard::empty(),
+        }
+    }
+
+    pub fn from_parts(all: BitBoard, white: BitBoard, black: BitBoard) -> Self {
+        Occupancy { all, white, black }
     }
 }
 

@@ -5,7 +5,7 @@ use board_representation::board;
 
 fn main() {
     let mut board = board::Board::new();
-    print_bitboard(board.bb_pieces[Color::White][Piece::Pawn].0);
+    print_bitboard(board.bb_occupancy.all.0);
     println!("{}", board.side_to_move);
 }
 
